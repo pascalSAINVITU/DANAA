@@ -5,6 +5,7 @@ Dynamic Assets Names Autonomous Agent  (for Obyte)
 Let you register a nicer name for your assets.
 * Add a new entry: set 'unit_id' and 'new_name';
 * Change one of your exisiting entries: set 'unit_id' and 'new_name';
+* Get the nice name from another aa: var["M2GL3REJ3TJPHVC4GMCBKQI54NEKRYNH"][<asset id>]
 
 ## State variables
 * <unit_id>: contains the new_name and can be used by other AA to show this nice name;
