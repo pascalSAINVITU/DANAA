@@ -1,0 +1,82 @@
+[ 
+/*
+
+
+*/
+   "autonomous agent",{ 
+		init: "{
+         $aa = "AVKHRNTNSE62AX4Q6DT3TLZL6O6M5JXY";
+		}",
+	   	messages: {
+			cases: [
+				{ // full entry
+					if: "{ trigger.data.fe }",
+					init: "{ 
+					// check
+					}",
+					messages: [
+                  	{ 
+							app: 'data', payload: {
+                        
+							   unit_id: "{"1234"}",
+							   short_name: "{"monkey ball(s) "||number_from_seed(timestamp,0,10000)}",
+                        name: "{'monkey ball(s) by heymonkey'}",
+                        ticker: "{'oo'}",
+                        decimals: "{0}",
+                        description: "{'monkey ball(s) by heymonkey and that s all'}",
+							}
+						},
+						{ 
+							app: 'payment', payload: {
+								asset: "{'base'}",
+								outputs: [{
+									address: "{$aa}", 
+									amount: "{trigger.output[[asset=base]] - 1000}" 
+								}]
+							}
+						},
+						{
+							app: "state", state: "{
+							}"
+						}
+					]
+				},{ // minimal entry
+					if: "{ trigger.data.me }",
+					init: "{ 
+					// check
+					}",
+					messages: [
+                  	{ 
+							app: 'data', payload: {
+							   short_name: "{"monkey ball(s) "||number_from_seed(timestamp,0,10000)}",
+                        ticker: "{'oo'}",
+                        decimals: "{0}",
+							}
+						},
+						{ 
+							app: 'payment', payload: {
+								asset: "{'base'}",
+								outputs: [{
+									address: "{$aa}", 
+									amount: "{trigger.output[[asset=base]] - 1000}" 
+								}]
+							}
+						},
+						{
+							app: "state", state: "{
+							}"
+						}
+					]
+				},
+				{ // default case
+					messages: [
+						{ 
+							app: "state", state: "{
+							}"
+						}
+					]
+				}
+			]
+		}
+	}
+]
