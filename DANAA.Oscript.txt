@@ -1,0 +1,66 @@
+[ 
+/*
+# DANAA, Dynamic Assets Names Autonomous Agent
+## Let you register a nicer name for your assets.
+
+## Use cases:
+* Add a new entry: set 'unit_id' and 'new_name';
+* Change one of your exisiting entries: set 'unit_id' and 'new_name';
+
+## State variables
+* <unit_id>: contains the new_name and can be used by other AA to show this nice name;
+* <unit_id>_author: address of the user that create the entry;
+
+* TODO : In the futur if it possible to acces de fields of a unit, we could allow only the author of the asset unit to be able to choose a name for its asset.
+
+*/
+   "autonomous agent",{ 
+		init: "{
+			$aa_name = "DANAA"; // Dynamic Asset Names Autonomous Agent;
+			$owner = "O7NYCFUL5XIJTYE3O4MKGMGMTN6ATQAJ"; // could withdraw the dust is calculable.
+			
+			$asset_unit_id = trigger.data.unit_id otherwise false;
+			$asset_new_name = trigger.data.new_name otherwise false;
+			$asset_author = trigger.address; 
+		}",
+	   	messages: {
+			cases: [
+				{ // 1. adding a new entry
+					if: "{ $asset_unit_id and $asset_new_name }",
+					init: "{ 
+					// check
+						if (var[$asset_unit_id])
+							if (trigger.address != var[$asset_unit_id||"_author"])
+								bounce ("Already registered and not by you!");
+					}",
+					messages: [
+						{ 
+							app: 'payment', payload: {
+								asset: "{'base'}",
+								outputs: [{
+									address: "{$asset_author}", 
+									amount: "{trigger.output[[asset=base]] - 1000}" 
+								}]
+							}
+						},
+						{
+							app: "state", state: "{
+								var[$asset_unit_id] = $asset_new_name;
+								var[$asset_unit_id||"_author"] = $asset_author;
+							}"
+						}
+					]
+				},
+				{ // default case
+					messages: [
+						{ 
+							app: "state", state: "{
+								bounce ("Specify a 'unit_id' and a 'new_name'");
+							}"
+						}
+					]
+				}
+			]
+		}
+	}
+]
