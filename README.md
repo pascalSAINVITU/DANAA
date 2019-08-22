@@ -12,5 +12,5 @@ Let you register a nicer name for your assets.
 * <unit_id>_author: address of the user that create the entry;
 
 ## TODO
-* In the futur if it possible to access de fields of a unit, we could allow only the author of the asset unit to be able to choose a name for its asset.
+* In the future if it possible to access the fields of an unit, we could allow only the author of the asset unit to be able to choose a name for its asset.
 
