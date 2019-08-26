@@ -1,11 +1,10 @@
 [ 
 /*
-
-
+  Unit test of DANAA
 */
    "autonomous agent",{ 
 		init: "{
-         $aa = "AVKHRNTNSE62AX4Q6DT3TLZL6O6M5JXY";
+         $aa = "LLAVLVFN3CPBHTAB62NOIZLAMPABR2YF";
 		}",
 	   	messages: {
 			cases: [
@@ -17,13 +16,12 @@
 					messages: [
                   	{ 
 							app: 'data', payload: {
-                        
-							   unit_id: "{"1234"}",
-							   short_name: "{"monkey ball(s) "||number_from_seed(timestamp,0,10000)}",
-                        name: "{'monkey ball(s) by heymonkey'}",
-                        ticker: "{'oo'}",
-                        decimals: "{0}",
-                        description: "{'monkey ball(s) by heymonkey and that s all'}",
+							   	unit_id: "{"seeJqjp5Aj4jqtxeqeyfkV1L+ShPy3lyqRANaxCcGhc="}",
+							   	short_name: "{"monkey ball(s)"}",
+								name: "{'monkey ball(s) by heymonkey'}",
+								ticker: "{'oo'}",
+								decimals: "{0}",
+								description: "{'monkey ball(s) by heymonkey and that s all'}",
 							}
 						},
 						{ 
@@ -48,9 +46,10 @@
 					messages: [
                   	{ 
 							app: 'data', payload: {
-							   short_name: "{"monkey ball(s) "||number_from_seed(timestamp,0,10000)}",
-                        ticker: "{'oo'}",
-                        decimals: "{0}",
+								unit_id: "{"seeJqjp5Aj4jqtxeqeyfkV1L+ShPy3lyqRANaxCcGhc="}",
+							   	short_name: "{"monkey ball(s) "||number_from_seed(timestamp,0,10000)}",
+								ticker: "{'oo'}",
+								decimals: "{0}",
 							}
 						},
 						{ 
