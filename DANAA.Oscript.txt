@@ -26,42 +26,54 @@ optionals:
 			$aa_name = "DANAA"; // Dynamic Asset Names Autonomous Agent;
 			$owner = "O7NYCFUL5XIJTYE3O4MKGMGMTN6ATQAJ"; // could withdraw the dust is calculable.
 			
-			$unit_id = trigger.data.unit_id otherwise false;
-         $short_name = trigger.data.short_name otherwise false;
-         $ticker = trigger.data.ticker otherwise false;   
-         $decimals = trigger.data.decimals otherwise false;
+			$unit_id = trigger.data.unit_id;
+			$short_name = trigger.data.short_name;
+			$ticker = trigger.data.ticker;   
 			$issuer = trigger.address; // preferrably the address to be able to modify it
-         $name = trigger.data.name otherwise $shortName||" by "||$author;
-         $description = trigger.data.description otherwise "Asset called "||$shortName||" issued by "||$issuer||", with "||$decimals||" decimals available. Its ticker is "||$ticker||" and it is defined by the unit '"||$unit_id||"'.";
+			$name = trigger.data.name otherwise $short_name||" by "||$issuer;
+			
 		}",
 	   	messages: {
 			cases: [
 				{ // 1. adding a new entry
-					if: "{ $unit_id and $short_name and $ticker and $decimals }",
+					if: "{ $unit_id and $short_name and $ticker}",
 					init: "{ 
-					// check
+						// check decimal
+						if (trigger.data.decimals)
+						{
+							if (trigger.data.decimals < 0) 
+								bounce ("'decimals' must be > 0 !");
+							else
+								$decimals = trigger.data.decimals;
+						}
+						else
+							$decimals = 0;
+
+						// if exist must be issuer.
 						if (var[$unit_id])
 							if (trigger.address != var[$unit_id||"_issuer"])
-								bounce ("Already registered and not by you!");
+								bounce ("Already registered and not by you !");
+
+						$description = trigger.data.description otherwise "Asset called "||$short_name||" issued by "||$issuer||", with "||$decimals||" decimals available. Its ticker is "||$ticker||" and it is defined by the unit '"||$unit_id||"'.";
 					}",
 					messages: [
-						{ 
+						{  // return fee to user
 							app: 'payment', payload: {
 								asset: "{'base'}",
 								outputs: [{
-									address: "{$author}", 
+									address: "{$issuer}", 
 									amount: "{trigger.output[[asset=base]] - 1000}" 
 								}]
 							}
 						},
 						{
 							app: "state", state: "{
-                        var[$unit_id||"_shortName"] = $short_name;
+								var[$unit_id||"_shortName"] = $short_name;
 								var[$unit_id||"_issuer"] = $issuer;
-                        var[$unit_id||"_name"] = $name;
-                        var[$unit_id||"_ticker"] = $ticker;
-                        var[$unit_id||"_decimals"] = $decimals;
-                        var[$unit_id||"_description"] = $description;
+								var[$unit_id||"_name"] = $name;
+								var[$unit_id||"_ticker"] = $ticker;
+								var[$unit_id||"_decimals"] = $decimals;
+								var[$unit_id||"_description"] = $description;
 							}"
 						}
 					]
